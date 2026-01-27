@@ -1,4 +1,6 @@
-# RPG System: Character Management & Guild Builder
+## RPG System: Character Management & Guild Builder
+
+# [ STILL UNFINISHED ]
 
 Welcome to the **RPG System**, a modular Python-based framework designed for managing player accounts and building unique character guilds. This system allows users to create accounts with varying difficulties and recruit specialized character classes to their ranks.
 
