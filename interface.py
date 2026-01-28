@@ -1,5 +1,6 @@
 from account import Account 
-from interface_line import Interface_line
+from interfaceLine import InterfaceLine
+from accountManager import AccountManager
 #from character import Character
 from character_types.warrior import Warrior
 from character_types.mage import Mage
@@ -7,15 +8,16 @@ from character_types.archer import Archer
 from character_types.healer import Healer
 from character_types.shielder import Shielder
 
+db_manager = AccountManager()
 
 class Interface:
     current_account = None
 
     @classmethod
     def start_menu(cls):
-        Interface_line.double_line()
+        InterfaceLine.double_line()
         print("Welcome To <Game name>")
-        Interface_line.double_line()
+        InterfaceLine.double_line()
         print("1. Create New Account")
         print("2. Login Account")
         print("3. About Game")
@@ -41,17 +43,17 @@ class Interface:
 
     @classmethod
     def get_choise(cls):
-        Interface_line.single_line()
+        InterfaceLine.single_line()
         return input("Select an Option : ")
 
     @classmethod
     def get_username(cls):
-        Interface_line.single_line()
+        InterfaceLine.single_line()
         return input("Type your account name : ")
 
     @classmethod
     def get_password(cls):
-        Interface_line.single_line()
+        InterfaceLine.single_line()
         return input("set your account password : ") 
 
     @classmethod
@@ -59,16 +61,19 @@ class Interface:
         username = cls.get_username()
         difficulty = cls.set_difficulty()
         cls.current_account = Account.new_account(username, cls.get_password(), difficulty)
-        Interface_line.double_line()
-        print("Account Created Successfully !")
+        InterfaceLine.double_line()
         cls.set_characters_menu()
+        if db_manager.save_account(current_account):
+            print("Account saved to database successfully!")
+        else:
+            print("Failed to save account.")
         
         
     @classmethod
     def set_difficulty(cls):
-        Interface_line.double_line()
+        InterfaceLine.double_line()
         print("Set your difficulty")
-        Interface_line.double_line()
+        InterfaceLine.double_line()
         print("1. Easy")
         print("2. Medium")
         print("3. Hard")
@@ -80,16 +85,16 @@ class Interface:
         elif choise == "3":
             return "Hard"
         else:
-            Interface_line.double_line()
+            InterfaceLine.double_line()
             print("Invalid Option ! Try again...")
-            Interface_line.double_line()
+            InterfaceLine.double_line()
             return cls.set_difficulty()
 
     @classmethod
     def character_choise_menu(cls):
-        Interface_line.double_line()
+        InterfaceLine.double_line()
         print("Chsoe this one : ")
-        Interface_line.single_line()
+        InterfaceLine.single_line()
         print("1. Yes")
         print("2. No. Go back.")
     
@@ -118,10 +123,10 @@ class Interface:
 
     @classmethod
     def set_main_character(cls):
-        Interface_line.double_line()
+        InterfaceLine.double_line()
         print("Set your main character...")
         print("To see character infomation Chose a character : ")
-        Interface_line.single_line()
+        InterfaceLine.single_line()
         print("1. Warrior")
         print("2. Mage")
         print("3. Archer")
@@ -136,16 +141,16 @@ class Interface:
             Archer.info()
             cls.main_character_chose(Archer)
         else:
-            Interface_line.double_line()
+            InterfaceLine.double_line()
             print("Invalid Option ! Try again...")
             return cls.set_main_character()
 
     @classmethod
     def set_sub_character(cls):
-        Interface_line.double_line()
+        InterfaceLine.double_line()
         print("Set your sub character...")
         print("To see character infomation Chose a character : ")
-        Interface_line.single_line()
+        InterfaceLine.single_line()
         print("1. Healer")
         print("2. Shielder")
         choise = cls.get_choise()
@@ -156,7 +161,7 @@ class Interface:
             Shielder.info()
             cls.sub_character_chose(Shielder)
         else:
-            Interface_line.double_line()
+            InterfaceLine.double_line()
             print("Invalid Option ! Try again...")
             return cls.set_sub_character()
 
@@ -165,27 +170,28 @@ class Interface:
         cls.set_main_character()
         cls.set_sub_character()
 
+
     @classmethod
     def login_username(cls):
-        Interface_line.single_line()
+        InterfaceLine.single_line()
         return input("Username : ")
 
     @classmethod
     def login_password(cls):
-        Interface_line.single_line()
+        InterfaceLine.single_line()
         return input("Username : ")
 
     @classmethod
-    def login_menu():
+    def login_menu(cls):
         cls.get_username()
 
     
 
     @classmethod
-    def game_menu():
-        Interface_line.double_line()
+    def game_menu(cls):
+        InterfaceLine.double_line()
         print("Welcome <acc name> to the <game>")
-        Interface_line.double_line()
+        InterfaceLine.double_line()
         print("1. Story Mode")
         print("2. Bounty Mode")
         print("3. Character Stats")

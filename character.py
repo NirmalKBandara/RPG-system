@@ -4,8 +4,14 @@ class Character:
         self.hp = hp
         self.attack = attack
         self.stamina = stamina
-    
-    def speak(self):
-        print(f"{self.name} is ready for battle !" )
+
+    def to_dict(self):
+        return {
+            "type": self.__class__.__name__,
+            "name": self.name,
+            "hp": self.hp,
+            "attack": self.attack,
+            "stamina": self.stamina
+        }
 
     

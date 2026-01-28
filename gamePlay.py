@@ -1,3 +1,6 @@
 from interface import Interface
+from accountManager import AccountManager
 
-Interface.game_menu()
+database = AccountManager()
+Interface.start_menu()
+database.close()
