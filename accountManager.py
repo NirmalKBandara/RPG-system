@@ -1,5 +1,6 @@
 import sqlite3
 import json
+import mysql.connector
 
 from character_types.warrior import Warrior
 from character_types.mage import Mage
@@ -19,9 +20,15 @@ class AccountManager:
 
     def __init__(self, db_name = "accounts.db"):
         if hasattr(self, 'initialized'):
-            return
+            return None
 
-        self.conn = sqlite3.connect(db_name) # The road to the database
+        self.conn = mysql.connector.connect(
+           host="localhost",
+           user="root",
+           password="(Nirmal2003Bandara:",
+           database="accounts"
+       )
+
         self.cursor = self.conn.cursor() # The Truck on the road
         self._create_table()
         self.initialized = True
@@ -42,7 +49,7 @@ class AccountManager:
             main_char_json = json.dumps(account.main_character.to_dict()) if account.main_character else None
             sub_char_json = json.dumps(account.sub_character.to_dict()) if account.sub_character else None
 
-            query = "INSERT INTO accounts VALUES (?, ?, ?, ?, ?, ?)"
+            query = "INSERT INTO accounts VALUES (%s, %s, %s, %s, %s, %s)"
             data = (account.username, account.salt, account.password_hash, account.difficulty, main_char_json, sub_char_json)
             self.cursor.execute(query, data)
             self.conn.commit()
@@ -57,8 +64,8 @@ class AccountManager:
     def load_account(self, username):
         try:
             query = "SELECT username, salt, password_hash, difficulty, main_character, sub_character FROM accounts WHERE username = ?"
-            self.coursor.execute(query, (username, ))
-            row = self.coursor.fetchone()
+            self.cursor.execute(query, (username, ))
+            row = self.cursor.fetchone()
 
             if not row:
                 print("No account found! Try again.")
@@ -106,4 +113,3 @@ class AccountManager:
             
     def close(self):
         self.conn.close()
-

@@ -177,12 +177,19 @@ class Interface:
     @classmethod
     def login_username(cls):
         InterfaceLine.single_line()
-        return input("Username : ")
+        current_account = db_manager.load_account(input("Username : "))
+        if current_account:
+            return True
+        else:
+            return False 
 
     @classmethod
     def login_password(cls):
         InterfaceLine.single_line()
-        return input("Password : ")
+        if cls.current_account.check_password(input("Password : ")):
+            return True
+        else:
+            return False
 
     @classmethod
     def login_menu(cls):
