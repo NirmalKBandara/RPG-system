@@ -9,11 +9,10 @@ from character_types.shielder import Shielder
 
 
 class Interface:
-
     current_account = None
 
     @classmethod
-    def game_menu(cls):
+    def start_menu(cls):
         Interface_line.double_line()
         print("Welcome To <Game name>")
         Interface_line.double_line()
@@ -25,8 +24,10 @@ class Interface:
         choise = cls.get_choise()
         if choise == "1":
             cls.new_account_menu()
-        # elif choise == "2":
-        #     cls.login_menu()
+            cls.game_menu()
+        elif choise == "2":
+            cls.login_menu()
+            cls.game_menu()
         # elif choise == "3":
         #     cls.about_game()
         # elif choise == "4":
@@ -46,18 +47,19 @@ class Interface:
     @classmethod
     def get_username(cls):
         Interface_line.single_line()
-        return input("Type your account name :")
+        return input("Type your account name : ")
 
     @classmethod
     def get_password(cls):
         Interface_line.single_line()
-        return input("set your account password :") 
+        return input("set your account password : ") 
 
     @classmethod
     def new_account_menu(cls):
         username = cls.get_username()
         difficulty = cls.set_difficulty()
         cls.current_account = Account.new_account(username, cls.get_password(), difficulty)
+        Interface_line.double_line()
         print("Account Created Successfully !")
         cls.set_characters_menu()
         
@@ -163,6 +165,46 @@ class Interface:
         cls.set_main_character()
         cls.set_sub_character()
 
+    @classmethod
+    def login_username(cls):
+        Interface_line.single_line()
+        return input("Username : ")
 
+    @classmethod
+    def login_password(cls):
+        Interface_line.single_line()
+        return input("Username : ")
+
+    @classmethod
+    def login_menu():
+        cls.get_username()
+
+    
+
+    @classmethod
+    def game_menu():
+        Interface_line.double_line()
+        print("Welcome <acc name> to the <game>")
+        Interface_line.double_line()
+        print("1. Story Mode")
+        print("2. Bounty Mode")
+        print("3. Character Stats")
+        print("4. Log Out Account")
+        print("5. Quit Game")
+        choise = cls.get_choise()
+        # if choise == "1":
+        #     cls.new_account_menu()
+        # elif choise == "2":
+        #     cls.login_menu()
+        # elif choise == "3":
+        #     cls.about_game()
+        # elif choise == "4":
+        #     cls.settings()
+        # elif choise == "5":
+        #     cls.quit_game()
+        # else:
+        #     print("Invalid Option ! Try again...")
+        #     cls.game_menu()
+    
 
     #password = input("Set your account password :")
