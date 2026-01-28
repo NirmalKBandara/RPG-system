@@ -8,7 +8,8 @@ class Account:
         self.password_hash = password_hash
         self.difficulty = difficulty
         self.main_character = None
-        self.sub_character = None 
+        self.sub_character = None
+        self.guild = [] 
     
     @staticmethod
     def _hash_password(password, salt):
@@ -27,6 +28,6 @@ class Account:
         self.guild.append(character)
         print(f"{character.name} the {type(character).__name__} has been added to your account!")
 
-    # def check_password(self, password):
-    #     return self._hash_password(password, self.salt) == self.password_hash
+    def check_password(self, password):
+        return self._hash_password(password, self.salt) == self.password_hash
 

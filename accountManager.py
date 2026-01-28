@@ -1,6 +1,14 @@
 import sqlite3
 import json
 
+from character_types.warrior import Warrior
+from character_types.mage import Mage
+from character_types.archer import Archer
+from character_types.healer import Healer
+from character_types.shielder import Shielder
+from account import Account
+
+
 class AccountManager:
     _instance = None 
 
@@ -14,13 +22,13 @@ class AccountManager:
             return
 
         self.conn = sqlite3.connect(db_name) # The road to the database
-        self.coursor = self.conn.cursor() # The Truck on the road
+        self.cursor = self.conn.cursor() # The Truck on the road
         self._create_table()
         self.initialized = True
         print(" [SYSTEM] Database Connection Established.")
 
     def _create_table(self):
-        self.coursor.execute('''CREATE TABLE IF NOT EXISTS accounts
+        self.cursor.execute('''CREATE TABLE IF NOT EXISTS accounts
                             (username TEXT PRIMARY KEY,
                             salt TEXT NOT NULL,
                             password_hash TEXT NOT NULL,
@@ -31,12 +39,12 @@ class AccountManager:
 
     def save_account(self, account):
         try:
-            main_char_json = json.dumps(account.main_character.to_dict())
-            sub_char_json = json.dumps(account.sub_character.to_dict())
+            main_char_json = json.dumps(account.main_character.to_dict()) if account.main_character else None
+            sub_char_json = json.dumps(account.sub_character.to_dict()) if account.sub_character else None
 
             query = "INSERT INTO accounts VALUES (?, ?, ?, ?, ?, ?)"
             data = (account.username, account.salt, account.password_hash, account.difficulty, main_char_json, sub_char_json)
-            self.coursor.execute(query, data)
+            self.cursor.execute(query, data)
             self.conn.commit()
             return True
         except sqlite3.IntegrityError:
@@ -45,6 +53,56 @@ class AccountManager:
         except Exception as e:
             print(f"Database Error: {e}")
             return False
+
+    def load_account(self, username):
+        try:
+            query = "SELECT username, salt, password_hash, difficulty, main_character, sub_character FROM accounts WHERE username = ?"
+            self.coursor.execute(query, (username, ))
+            row = self.coursor.fetchone()
+
+            if not row:
+                print("No account found! Try again.")
+                return None
+
+            username, salt, password_hash, difficulty, main_character, sub_character = row
+            loaded_account = Account.load_from_db(username, salt, password_hash, difficulty)
+
+            loaded_account.main_character = Account.load_character(main_character)
+            loaded_account.sub_character = Account.load_character(sub_character)
+
+            return loaded_account
+        
+        except Exception as e:
+            print(f"Error loading account: {e}")
+            return None
+
+
+    def load_character(self, json_str):
+        if not json_str: 
+            return None
+
+        data = json.loads(json_str)
+        char_type = data["type"]
+        char_name = data["name"]
+
+        character_type = None
+        if char_type == "Warrior": 
+            character_type = Warrior(char_name)
+        elif char_type == "Mage": 
+            character_type = Mage(char_name)
+        elif char_type == "Archer": 
+            character_type = Archer(char_name)
+        elif char_type == "Healer": 
+            character_type = Healer(char_name)
+        elif char_type == "Shielder": 
+            character_type = Shielder(char_name)
+
+        if character_type:
+            character_type.hp = data["hp"]
+            character_type.attack = data["attack"]
+            character_type.stamina = data["stamina"]
+
+        return character_type
             
     def close(self):
         self.conn.close()

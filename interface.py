@@ -1,3 +1,5 @@
+import sys
+
 from account import Account 
 from interfaceLine import InterfaceLine
 from accountManager import AccountManager
@@ -34,8 +36,9 @@ class Interface:
         #     cls.about_game()
         # elif choise == "4":
         #     cls.settings()
-        # elif choise == "5":
-        #     cls.quit_game()
+        elif choise == "5":
+            print(5)
+            sys.exit()
         # else:
         #     print("Invalid Option ! Try again...")
         #     cls.game_menu()
@@ -63,7 +66,7 @@ class Interface:
         cls.current_account = Account.new_account(username, cls.get_password(), difficulty)
         InterfaceLine.double_line()
         cls.set_characters_menu()
-        if db_manager.save_account(current_account):
+        if db_manager.save_account(cls.current_account):
             print("Account saved to database successfully!")
         else:
             print("Failed to save account.")
@@ -179,12 +182,15 @@ class Interface:
     @classmethod
     def login_password(cls):
         InterfaceLine.single_line()
-        return input("Username : ")
+        return input("Password : ")
 
     @classmethod
     def login_menu(cls):
-        cls.get_username()
-
+        username = cls.login_username()    
+    # Search for username in the data base
+    # if exists, get the account object
+    # then cheack using account object's check_password mehtod 
+         
     
 
     @classmethod
@@ -198,16 +204,16 @@ class Interface:
         print("4. Log Out Account")
         print("5. Quit Game")
         choise = cls.get_choise()
-        # if choise == "1":
-        #     cls.new_account_menu()
+        if choise == "1":
+            cls.new_account_menu()
         # elif choise == "2":
         #     cls.login_menu()
         # elif choise == "3":
         #     cls.about_game()
         # elif choise == "4":
         #     cls.settings()
-        # elif choise == "5":
-        #     cls.quit_game()
+        elif choise == "5":
+           sys.exit()
         # else:
         #     print("Invalid Option ! Try again...")
         #     cls.game_menu()
