@@ -7,7 +7,8 @@ class Account:
         self.salt = salt
         self.password_hash = password_hash
         self.difficulty = difficulty
-        self.guild = [] 
+        self.main_character = None
+        self.sub_character = None 
     
     @staticmethod
     def _hash_password(password, salt):

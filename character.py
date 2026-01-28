@@ -1,8 +1,8 @@
 class Character:
-    def __init__ (self, name, hp, attcak, stamina):
+    def __init__ (self, name, hp, attack, stamina):
         self.name = name
         self.hp = hp
-        self.attack = attcak
+        self.attack = attack
         self.stamina = stamina
     
     def speak(self):
