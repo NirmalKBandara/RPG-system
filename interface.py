@@ -177,8 +177,8 @@ class Interface:
     @classmethod
     def login_username(cls):
         InterfaceLine.single_line()
-        current_account = db_manager.load_account(input("Username : "))
-        if current_account:
+        cls.current_account = db_manager.load_account(input("Username : "))
+        if cls.current_account:
             return True
         else:
             return False 
@@ -193,7 +193,25 @@ class Interface:
 
     @classmethod
     def login_menu(cls):
-        username = cls.login_username()    
+        if cls.login_username():
+            if cls.login_password():
+                print("Login successful!")
+                # print(cls.current_account.username)
+                # print(cls.current_account.salt)
+                # print(cls.current_account.password_hash)
+                # print(cls.current_account.difficulty)
+                # print(cls.current_account.main_character)
+                # print(type(cls.current_account.main_character).__name__)
+                # print(cls.current_account.sub_character)
+                # print(type(cls.current_account.sub_character).__name__)
+                cls.game_menu()
+            else:
+                print("Invalid password!")
+                return cls.login_password()
+        else:
+            print("Invalid username!")
+            return cls.login_username()
+    
     # Search for username in the data base
     # if exists, get the account object
     # then cheack using account object's check_password mehtod 
@@ -203,7 +221,7 @@ class Interface:
     @classmethod
     def game_menu(cls):
         InterfaceLine.double_line()
-        print("Welcome <acc name> to the <game>")
+        print(f"Welcome {cls.current_account.username} to the game!")
         InterfaceLine.double_line()
         print("1. Story Mode")
         print("2. Bounty Mode")

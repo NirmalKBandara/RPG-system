@@ -36,7 +36,7 @@ class AccountManager:
 
     def _create_table(self):
         self.cursor.execute('''CREATE TABLE IF NOT EXISTS accounts
-                            (username TEXT PRIMARY KEY,
+                            (username VARCHAR(255) PRIMARY KEY NOT NULL,
                             salt TEXT NOT NULL,
                             password_hash TEXT NOT NULL,
                             difficulty TEXT NOT NULL,
@@ -63,7 +63,7 @@ class AccountManager:
 
     def load_account(self, username):
         try:
-            query = "SELECT username, salt, password_hash, difficulty, main_character, sub_character FROM accounts WHERE username = ?"
+            query = "SELECT username, salt, password_hash, difficulty, main_character, sub_character FROM accounts WHERE username = %s"
             self.cursor.execute(query, (username, ))
             row = self.cursor.fetchone()
 
@@ -74,8 +74,8 @@ class AccountManager:
             username, salt, password_hash, difficulty, main_character, sub_character = row
             loaded_account = Account.load_from_db(username, salt, password_hash, difficulty)
 
-            loaded_account.main_character = Account.load_character(main_character)
-            loaded_account.sub_character = Account.load_character(sub_character)
+            loaded_account.main_character = self.load_character(main_character)
+            loaded_account.sub_character = self.load_character(sub_character)
 
             return loaded_account
         
@@ -104,10 +104,10 @@ class AccountManager:
         elif char_type == "Shielder": 
             character_type = Shielder(char_name)
 
-        if character_type:
-            character_type.hp = data["hp"]
-            character_type.attack = data["attack"]
-            character_type.stamina = data["stamina"]
+        # if character_type:
+        #     character_type.hp = data["hp"]
+        #     character_type.attack = data["attack"]
+        #     character_type.stamina = data["stamina"]
 
         return character_type
             

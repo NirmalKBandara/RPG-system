@@ -1,0 +1,3 @@
+--@block
+CREATE DATABASE accounts;
+

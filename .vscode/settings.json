@@ -11,7 +11,7 @@
             "port": 3306,
             "driver": "MySQL",
             "name": "MyLocalSQL",
-            "database": "sys",
+            "database": "mysql",
             "username": "root",
             "password": "(Nirmal2003Bandara:"
         }
