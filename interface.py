@@ -19,20 +19,28 @@ class Interface:
 
     @classmethod
     def start_menu(cls):
-        InterfaceLine.double_line()
-        print("Welcome To <Game name>")
-        InterfaceLine.double_line()
-        print("1. Create New Account")
-        print("2. Login Account")
-        print("3. About Game")
-        print("4. Settings")
-        print("5. Quit Game")
+
+        os.system('cls' if os.name == 'nt' else 'clear')
+
+        print(f"{Col.CYAN}╔{'═'*50}╗{Col.END}")
+        print(f"{Col.CYAN}║{Col.END}{' '*50}{Col.CYAN}║{Col.END}")
+        print(f"{Col.CYAN}║{Col.END} {Col.BOLD}{f'WELCOME TO <Game name>'.center(48)}{Col.END} {Col.CYAN}║{Col.END}")
+        print(f"{Col.CYAN}║{Col.END}{' '*50}{Col.CYAN}║{Col.END}")
+        print(f"{Col.CYAN}╚{'═'*50}╝{Col.END}")
+        
+        print(f"\n   {Col.BOLD}LET'S GET STARTED!{Col.END}")
+        print(f"\n   {Col.CYAN}[1]{Col.END} Login Account")
+        print(f"   {Col.CYAN}[2]{Col.END} Create New Account")
+        print(f"   {Col.CYAN}[3]{Col.END} About Game")
+        print(f"   {Col.CYAN}[4]{Col.END} Settings")
+        print(f"   {Col.CYAN}[5]{Col.END} Quit Game")
+
         choise = cls.get_choise()
         if choise == "1":
-            cls.new_account_menu()
+            cls.login_menu()
             cls.game_menu()
         elif choise == "2":
-            cls.login_menu()
+            cls.new_account_menu()
             cls.game_menu()
         # elif choise == "3":
         #     cls.about_game()
@@ -48,21 +56,27 @@ class Interface:
 
     @classmethod
     def get_choise(cls):
-        InterfaceLine.single_line()
-        return input("Select an Option : ")
+        print("")
+        return input(f"{Col.YELLOW}Select an Option > {Col.END}")
 
     @classmethod
     def get_username(cls):
-        InterfaceLine.single_line()
-        return input("Type your account name : ")
+        print("")
+        return input(f"{Col.YELLOW}Set a username > {Col.END}")
 
     @classmethod
     def get_password(cls):
-        InterfaceLine.single_line()
-        return input("set your account password : ") 
+        print("")
+        return input(f"{Col.YELLOW}Set a password > {Col.END}") 
 
     @classmethod
     def new_account_menu(cls):
+        os.system('cls' if os.name == 'nt' else 'clear')
+        print(f"{Col.CYAN}╔{'═'*50}╗{Col.END}")
+        print(f"{Col.CYAN}║{Col.END}{' '*50}{Col.CYAN}║{Col.END}")
+        print(f"{Col.CYAN}║{Col.END} {Col.BOLD}{f'CREATE NEW ACCOUNT'.center(48)}{Col.END} {Col.CYAN}║{Col.END}")
+        print(f"{Col.CYAN}║{Col.END}{' '*50}{Col.CYAN}║{Col.END}")
+        print(f"{Col.CYAN}╚{'═'*50}╝{Col.END}")
         username = cls.get_username()
         difficulty = cls.set_difficulty()
         cls.current_account = Account.new_account(username, cls.get_password(), difficulty)
@@ -76,12 +90,22 @@ class Interface:
         
     @classmethod
     def set_difficulty(cls):
-        InterfaceLine.double_line()
-        print("Set your difficulty")
-        InterfaceLine.double_line()
-        print("1. Easy")
-        print("2. Medium")
-        print("3. Hard")
+
+        print(f"\n{Col.CYAN}╔{'═'*50}╗{Col.END}")
+        print(f"{Col.CYAN}║{Col.END}{' '*50}{Col.CYAN}║{Col.END}")
+        print(f"{Col.CYAN}║{Col.END} {Col.BOLD}{f'Set your difficulty'.center(48)}{Col.END} {Col.CYAN}║{Col.END}")
+        print(f"{Col.CYAN}║{Col.END}{' '*50}{Col.CYAN}║{Col.END}")
+        print(f"{Col.CYAN}╠{'═'*50}╣{Col.END}")
+        
+        print(f"{Col.CYAN}║{Col.END}{' '*50}{Col.CYAN}║{Col.END}")
+        print(f"{Col.CYAN}║{Col.END}     {Col.GREEN}1. Easy{Col.END} {" "*(36)} {Col.CYAN}║{Col.END}")
+        
+        print(f"{Col.CYAN}║{Col.END}     {Col.YELLOW}2. Medium{Col.END} {" "*(34)} {Col.CYAN}║{Col.END}")
+        
+        print(f"{Col.CYAN}║{Col.END}     {Col.RED}3. Hard{Col.END} {" "*(36)} {Col.CYAN}║{Col.END}")
+        print(f"{Col.CYAN}║{Col.END}{' '*50}{Col.CYAN}║{Col.END}")
+        print(f"{Col.CYAN}╚{'═'*50}╝{Col.END}")
+        
         choise = cls.get_choise()
         if choise == "1":
             return "Easy"
@@ -97,9 +121,9 @@ class Interface:
 
     @classmethod
     def character_choise_menu(cls):
-        InterfaceLine.double_line()
+        
         print("Chsoe this one : ")
-        InterfaceLine.single_line()
+
         print("1. Yes")
         print("2. No. Go back.")
     
@@ -170,6 +194,7 @@ class Interface:
             print("Invalid Option ! Try again...")
             return cls.set_sub_character()
 
+
     @classmethod
     def set_characters_menu(cls):
         cls.set_main_character()
@@ -178,7 +203,8 @@ class Interface:
 
     @classmethod
     def login_username(cls):
-        InterfaceLine.single_line()
+        os.system('cls' if os.name == 'nt' else 'clear')
+
         cls.current_account = db_manager.load_account(input("Username : "))
         if cls.current_account:
             return True
@@ -235,33 +261,35 @@ class Interface:
 
         # 3. Print the "Player Dashboard"
         print(f"\n{Col.CYAN}╔{'═'*50}╗{Col.END}")
+        print(f"{Col.CYAN}║{Col.END}{' '*50}{Col.CYAN}║{Col.END}")
         print(f"{Col.CYAN}║{Col.END} {Col.BOLD}{f'ADVENTURER DASHBOARD: {acc.username.upper()}'.center(48)}{Col.END} {Col.CYAN}║{Col.END}")
+        print(f"{Col.CYAN}║{Col.END}{' '*50}{Col.CYAN}║{Col.END}")
         print(f"{Col.CYAN}╠{'═'*50}╣{Col.END}")
         
+        print(f"{Col.CYAN}║{Col.END}{' '*50}{Col.CYAN}║{Col.END}")
         # Difficulty Row
-        print(f"{Col.CYAN}║{Col.END}  {Col.YELLOW}Difficulty :{Col.END} {acc.difficulty.ljust(50)} {Col.CYAN}║{Col.END}")
+        print(f"{Col.CYAN}║{Col.END}  {Col.YELLOW}Difficulty :{Col.END} {acc.difficulty.ljust(34)} {Col.CYAN}║{Col.END}")
         
         # Main Character Row
         m_display = f"{m_name} ({m_type})"
-        print(f"{Col.CYAN}║{Col.END}  {Col.RED}Main Hero  :{Col.END} {m_display.ljust(50)} {Col.CYAN}║{Col.END}")
+        print(f"{Col.CYAN}║{Col.END}  {Col.RED}Main Hero  :{Col.END} {m_display.ljust(34)} {Col.CYAN}║{Col.END}")
         
         # Sub Character Row
         s_display = f"{s_name} ({s_type})"
-        print(f"{Col.CYAN}║{Col.END}  {Col.GREEN}Support    :{Col.END} {s_display.ljust(50)} {Col.CYAN}║{Col.END}")
-        
+        print(f"{Col.CYAN}║{Col.END}  {Col.GREEN}Support    :{Col.END} {s_display.ljust(34)} {Col.CYAN}║{Col.END}")
+        print(f"{Col.CYAN}║{Col.END}{' '*50}{Col.CYAN}║{Col.END}")
         print(f"{Col.CYAN}╚{'═'*50}╝{Col.END}")
 
         # 4. The Menu Options
         print(f"\n   {Col.BOLD}WHAT IS YOUR NEXT MOVE?{Col.END}")
-        print(f"   {Col.CYAN}[1]{Col.END} 📖  Story Mode")
-        print(f"   {Col.CYAN}[2]{Col.END} 📜  Bounty Mode")
-        print(f"   {Col.CYAN}[3]{Col.END} 📊  View Full Stats")
-        print(f"   {Col.CYAN}[4]{Col.END} 🔙  Log Out")
-        print(f"   {Col.CYAN}[5]{Col.END} ❌  Quit Game")
+        print(f"\n   {Col.CYAN}[1]{Col.END} Story Mode")
+        print(f"   {Col.CYAN}[2]{Col.END} Bounty Mode")
+        print(f"   {Col.CYAN}[3]{Col.END} View Full Stats")
+        print(f"   {Col.CYAN}[4]{Col.END} Log Out")
+        print(f"   {Col.CYAN}[5]{Col.END} Quit Game")
 
         # 5. Get Input
-        InterfaceLine.single_line()
-        choice = input(f"{Col.YELLOW}Select an Option > {Col.END}")
+        choice = cls.get_choise()
         
         # 6. Handle Logic (Same as before)
         if choice == "4":
@@ -275,31 +303,6 @@ class Interface:
              print("This feature is coming soon!")
              input("Press Enter to continue...")
              cls.game_menu()    
-
-    # @classmethod
-    # def game_menu(cls):
-    #     InterfaceLine.double_line()
-    #     print(f"Welcome {cls.current_account.username} to the game!")
-    #     InterfaceLine.double_line()
-    #     print("1. Story Mode")
-    #     print("2. Bounty Mode")
-    #     print("3. Character Stats")
-    #     print("4. Log Out Account")
-    #     print("5. Quit Game")
-    #     choise = cls.get_choise()
-    #     if choise == "1":
-    #         cls.new_account_menu()
-    #     # elif choise == "2":
-    #     #     cls.login_menu()
-    #     # elif choise == "3":
-    #     #     cls.about_game()
-    #     # elif choise == "4":
-    #     #     cls.settings()
-    #     elif choise == "5":
-    #        sys.exit()
-    #     # else:
-    #     #     print("Invalid Option ! Try again...")
-    #     #     cls.game_menu()
     
 
     #password = input("Set your account password :")
