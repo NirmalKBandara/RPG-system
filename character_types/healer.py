@@ -1,16 +1,13 @@
 from character import Character
 
 class Healer(Character):
+    BASE_HP = 100
+    BASE_ATTACK = 5
+    BASE_STAMINA = 30
+    ABILITY_NAME = "Heal"
+    ABILITY_VALUE = 20
+
     def __init__(self, name):
-        super().__init__(name, hp=100, attack=5, stamina=30)
-        self.heal = 20
+        super().__init__(name, hp=self.BASE_HP, attack=self.BASE_ATTACK, stamina=self.BASE_STAMINA)
+        self.heal = self.ABILITY_VALUE
         
-    @staticmethod
-    def info():
-        print("-"*30)
-        print("HP : 100")
-        print("Attack : 5")
-        print("Stamina : 30")
-        print("Heal : 20")
-        print("-"*30)
-        print("Medium HP, Low Attack, Medium Stamina and Have healing ability.")

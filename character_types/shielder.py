@@ -1,16 +1,13 @@
 from character import Character
 
 class Shielder(Character):
+    BASE_HP = 85
+    BASE_ATTACK = 15
+    BASE_STAMINA = 20
+    ABILITY_NAME = "Shield"
+    ABILITY_VALUE = 30
+
     def __init__(self, name):
-        super().__init__(name, hp=85, attack=15, stamina=20)
-        self.shield = 30
+        super().__init__(name, hp=self.BASE_HP, attack=self.BASE_ATTACK, stamina=self.BASE_STAMINA)
+        self.shield = self.ABILITY_VALUE
         
-    @staticmethod
-    def info():
-        print("-"*30)
-        print("HP : 85")
-        print("Attack : 15")
-        print("Stamina : 20")
-        print("Shield : 30")
-        print("-"*30)
-        print("Medium HP, Medium Attack, Low Stamina and Have shielding ability.")

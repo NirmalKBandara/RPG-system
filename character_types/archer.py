@@ -1,14 +1,10 @@
 from character import Character
 
 class Archer(Character):
+    BASE_HP = 110
+    BASE_ATTACK = 15
+    BASE_STAMINA = 50
+
     def __init__(self, name):
-        super().__init__(name, hp=110, attack=15, stamina=50)
+        super().__init__(name, hp=self.BASE_HP, attack=self.BASE_ATTACK, stamina=self.BASE_STAMINA)
         
-    @staticmethod
-    def info():
-        print("-"*30)
-        print("HP : 110")
-        print("Attack : 15")
-        print("Stamina : 50")
-        print("-"*30)
-        print("Medium HP, Low Attack, High Stamina")

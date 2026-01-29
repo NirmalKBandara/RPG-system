@@ -1,14 +1,10 @@
 from character import Character
 
 class Mage(Character):
+    BASE_HP = 80
+    BASE_ATTACK = 40
+    BASE_STAMINA = 30
+
     def __init__(self, name):
-        super().__init__(name, hp=80, attack=40, stamina=30)
+        super().__init__(name, hp=self.BASE_HP, attack=self.BASE_ATTACK, stamina=self.BASE_STAMINA)
         
-    @staticmethod
-    def info():
-        print("-"*30)
-        print("HP : 80")
-        print("Attack : 40")
-        print("Stamina : 30")
-        print("-"*30)
-        print("Low HP, High Attack, Medium Stamina")
