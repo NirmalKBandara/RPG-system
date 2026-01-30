@@ -14,4 +14,9 @@ class Character:
             "stamina": self.stamina
         }
 
+    def zero_stamina(self, amount):
+        self.stamina = 0
+
+    def add_stamina(self, amount):
+        self.stamina += amount
     
