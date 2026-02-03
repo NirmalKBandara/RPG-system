@@ -1,3 +1,4 @@
+import random
 from character_types.warrior import Warrior
 from character_types.mage import Mage
 from character_types.archer import Archer
@@ -13,18 +14,18 @@ class EnemyAccount:
     def create_main_character(self, name):
         match random.randint(0,2):
             case 0:
-                return Warrior(name)
+                self.main_character = Warrior(name)
             case 1:
-                return Mage(name)
+                self.main_character = Mage(name)
             case 2:
-                return Archer(name)
+                self.main_character = Archer(name)
 
     def create_sub_character(self, name):
         match random.randint(0,1):
             case 0:
-                return Healer(name)
+                self.sub_character = Healer(name)
             case 1:
-                return Shielder(name)
+                self.sub_character = Shielder(name)
     
 
     

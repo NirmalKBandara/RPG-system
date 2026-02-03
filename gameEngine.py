@@ -1,9 +1,10 @@
 import time
+import random
 
 from character import Character 
 
 class GameEngine:
-    def __init__(character1, character2, character3, character4):
+    def __init__(self, character1, character2, character3, character4):
         #user
         self.character1 = character1
         self.character2 = character2
@@ -46,17 +47,17 @@ class GameEngine:
             return Print("YOU HAVE TO PASS YOUR TURN") 
         else:
             print("CHOSE YOUR HERO TO ATTACK !")
-            print(f"1. {character1.name} THE {type(character1).__name__}.")
-            print(f"2. {character2.name} THE {type(character2).__name__}.")
-            character = user_chosen_character(character3, character4, input("WHICH ONE YOU CHOSE IN THIS ROUND >"))
-            attack_type = chosen_attack(character)
+            print(f"1. {self.character1.name} THE {type(self.character1).__name__}.")
+            print(f"2. {self.character2.name} THE {type(self.character2).__name__}.")
+            character = self.user_chosen_character(int(input("WHICH ONE YOU CHOSE IN THIS ROUND >")))
+            attack_type = self.chosen_attack(character)
             if attack_type == "P":
-                return Print("ENEMY PASS THEIR TURN.")
+                return print("ENEMY PASS THEIR TURN.")
             
             print("WHO ARE YOU THINKING TO ATTACK !")
-            print(f"1. {character3.name} THE {type(character3).__name__}.")
-            print(f"2. {character4.name} THE {type(character4).__name__}.")
-            enemy_character = user_chosen_enemy(self.character3, self.character4,  input("WHICH ONE YOU CHOSE IN THIS ROUND >"))
+            print(f"1. {self.character3.name} THE {type(self.character3).__name__}.")
+            print(f"2. {self.character4.name} THE {type(self.character4).__name__}.")
+            enemy_character = self.user_chosen_enemy(int(input("WHICH ONE YOU CHOSE IN THIS ROUND >")))
             # N, E, Q
             match attack_type:
                 case "N":
@@ -68,7 +69,7 @@ class GameEngine:
                 case "Q":
                     self.heavy_attack(character, enemy_character)
                     print(f"YOUR {type(character).__name__} USE HEAVY ATTACK !")
-            return Print("NOW ITS ENEMY TURN.")
+            return print("NOW ITS ENEMY TURN.")
 
     def enemy_turn(self):
         if self.character3.stamina < 6 and self.character4.stamina < 6:
@@ -76,12 +77,12 @@ class GameEngine:
             time.sleep(2)
             return Print("ENEMY PASS THEIR TURN.")
         else:    
-            character = enemy_chosen_character(character3, character4)
-            attack_type = chosen_attack(character)
+            character = self.enemy_chosen_character()
+            attack_type = self.chosen_attack(character)
             if attack_type == "P":
-                return Print("ENEMY PASS THEIR TURN.")
+                return print("ENEMY PASS THEIR TURN.")
             
-            user_character = enemy_chosen_user(self.character1, self.character2)
+            user_character = self.enemy_chosen_user()
             # N, E, Q
             match attack_type:
                 case "N":
@@ -93,7 +94,7 @@ class GameEngine:
                 case "Q":
                     self.heavy_attack(character, user_character)
                     print("ENEMY USE HEAVY ATTACK !")
-            return Print("NOW ITS YOUR TURN.")
+            return print("NOW ITS YOUR TURN.")
 
             
                                 
@@ -113,7 +114,7 @@ class GameEngine:
         else:
             print("YOU CAN NOT CHOSE THIS CHARACTER.")
             print("USE OTHER ONE.")
-            return self.user_chosen_character(character1, character2, choise)
+            return self.user_chosen_character(choise)
 
     def user_chosen_enemy(self, choise):
         character = [self.character3, self.character4][choise-1]
@@ -122,21 +123,21 @@ class GameEngine:
         else:
             print("YOU CAN NOT ATTACK THIS CHARACTER.")
             print("USE OTHER ONE.")
-            return self.user_chosen_enemy(character3, character4)  
+            return self.user_chosen_enemy(int(input("WHICH ONE YOU CHOSE IN THIS ROUND >")))  
     
     def enemy_chosen_user(self):
         character = [self.character1, self.character2][random.randint(0,1)]
         if self.is_alive(character):
             return character
         else:
-            return self.enemy_chosen_user(character3, character4)   
+            return self.enemy_chosen_user()   
 
     def enemy_chosen_character(self):
         character = [self.character3, self.character4][random.randint(0,1)]
         if self.can_chose_character(character):
             return character
         else:
-            return self.enemy_chosen_character(character3, character4)
+            return self.enemy_chosen_character()
             
     def can_chose_character(self, character):
         if character.hp > 0:
@@ -154,12 +155,12 @@ class GameEngine:
                 if character.stamina > 12: 
                     return "E" 
                 else: 
-                    return self.chosen_attack()
+                    return self.chosen_attack(character)
             case 2: 
                 if character.stamina > 18: 
                     return "Q" 
                 else: 
-                    return self.chosen_attack()
+                    return self.chosen_attack(character)
             case 3: return "P"
 
     def is_game_over_1(self):

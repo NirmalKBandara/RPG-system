@@ -283,10 +283,10 @@ class Interface:
             if cls.login_password():
                 print()
                 print(f"{Col.CYAN} {Col.END} {Col.BOLD}{f'LOGIN SUCCESFULL !'.center(48)}{Col.END} {Col.CYAN} {Col.END}")
-                time.sleep(2)
+                #time.sleep(2)
                 print()
                 print(f"{Col.CYAN} {Col.END} {Col.BOLD}{f'WELCOME {cls.current_account.username}.'.center(48)}{Col.END} {Col.CYAN} {Col.END}")
-                time.sleep(2)
+                #time.sleep(2)
                 cls.game_menu()
             else:
                 print()
@@ -346,7 +346,7 @@ class Interface:
         # 5. Get Input
         choice = cls.get_choise()
         if choice == '2':
-            QuickBattle.battleStart(current_account)
+            QuickBattle.battleStart(cls.current_account)
         # 6. Handle Logic (Same as before)
         elif choice == "4":
             print("LOGGING OUT...")
