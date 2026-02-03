@@ -3,6 +3,7 @@ import os
 import time
 from color import Color as Col
 
+from gameEngine import GameEngine
 from account import Account 
 from interfaceLine import InterfaceLine
 from accountManager import AccountManager
@@ -342,9 +343,10 @@ class Interface:
 
         # 5. Get Input
         choice = cls.get_choise()
-        
+        if choice == '2':
+            GameEngine
         # 6. Handle Logic (Same as before)
-        if choice == "4":
+        elif choice == "4":
             print("LOGGING OUT...")
             cls.current_account = None
             cls.start_menu() # Go back to start

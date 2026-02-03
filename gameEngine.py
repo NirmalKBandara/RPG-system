@@ -115,7 +115,7 @@ class GameEngine:
             print("USE OTHER ONE.")
             return self.user_chosen_character(character1, character2, choise)
 
-    def user_chosen_enemy(self, character1, character2):
+    def user_chosen_enemy(self, character1, character2, choise):
         character = [character1, character2][choise-1]
         if self.is_alive(character):
             return character
