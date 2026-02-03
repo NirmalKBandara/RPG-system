@@ -28,19 +28,19 @@ class GameEngine:
         character4.zero_stamina()
 
     # easy mode
-    def reroll_stamina(character1, character2, character3, character4):
+    def reroll_stamina(self):
         usesr_stamina_count = random.randint(10, 20)
         enemy_stamina_count = random.randint(6, 20)
 
-        character1.add_stamina(usesr_stamina_count)
-        character2.add_stamina(usesr_stamina_count)
-        character3.add_stamina(enemy_stamina_count)
-        character4.add_stamina(enemy_stamina_count)
+        self.character1.add_stamina(usesr_stamina_count)
+        self.character2.add_stamina(usesr_stamina_count)
+        self.character3.add_stamina(enemy_stamina_count)
+        self.character4.add_stamina(enemy_stamina_count)
     
-    def user_turn(self, character1, character2):
+    def user_turn(self):
         # What is the action you are going proform
         # Get user input N,E,Q, or P(for Pass the turn)
-        if character1.stamina < 6 and character1.stamina < 6:
+        if self.character1.stamina < 6 and self.character1.stamina < 6:
             print("DOESN'T HAVE ENOUGH STAMINA !")
             time.sleep(2)
             return Print("YOU HAVE TO PASS YOUR TURN") 
@@ -56,7 +56,7 @@ class GameEngine:
             print("WHO ARE YOU THINKING TO ATTACK !")
             print(f"1. {character3.name} THE {type(character3).__name__}.")
             print(f"2. {character4.name} THE {type(character4).__name__}.")
-            enemy_character = user_chosen_enemy(cls.character3, cls.character4,  input("WHICH ONE YOU CHOSE IN THIS ROUND >"))
+            enemy_character = user_chosen_enemy(self.character3, self.character4,  input("WHICH ONE YOU CHOSE IN THIS ROUND >"))
             # N, E, Q
             match attack_type:
                 case "N":
@@ -70,8 +70,8 @@ class GameEngine:
                     print(f"YOUR {type(character).__name__} USE HEAVY ATTACK !")
             return Print("NOW ITS ENEMY TURN.")
 
-    def enemy_turn(self, character3, character4):
-        if character3.stamina < 6 and character4.stamina < 6:
+    def enemy_turn(self):
+        if self.character3.stamina < 6 and self.character4.stamina < 6:
             print("DOESN'T HAVE ENOUGH STAMINA !")
             time.sleep(2)
             return Print("ENEMY PASS THEIR TURN.")
@@ -81,7 +81,7 @@ class GameEngine:
             if attack_type == "P":
                 return Print("ENEMY PASS THEIR TURN.")
             
-            user_character = enemy_chosen_user(cls.character1, cls.character2)
+            user_character = enemy_chosen_user(self.character1, self.character2)
             # N, E, Q
             match attack_type:
                 case "N":
@@ -106,8 +106,8 @@ class GameEngine:
         else:
             return False
     
-    def user_chosen_character(self, character1, character2, choise):
-        character = [character1, character2][choise-1]
+    def user_chosen_character(self, choise):
+        character = [self.character1, self.character2][choise-1]
         if self.can_chose_character(character):
             return character
         else:
@@ -115,8 +115,8 @@ class GameEngine:
             print("USE OTHER ONE.")
             return self.user_chosen_character(character1, character2, choise)
 
-    def user_chosen_enemy(self, character1, character2, choise):
-        character = [character1, character2][choise-1]
+    def user_chosen_enemy(self, choise):
+        character = [self.character3, self.character4][choise-1]
         if self.is_alive(character):
             return character
         else:
@@ -124,15 +124,15 @@ class GameEngine:
             print("USE OTHER ONE.")
             return self.user_chosen_enemy(character3, character4)  
     
-    def enemy_chosen_user(self, character1, character2):
-        character = [character1, character2][random.randint(0,1)]
+    def enemy_chosen_user(self):
+        character = [self.character1, self.character2][random.randint(0,1)]
         if self.is_alive(character):
             return character
         else:
             return self.enemy_chosen_user(character3, character4)   
 
-    def enemy_chosen_character(self, character3, character4):
-        character = [character3, character4][random.randint(0,1)]
+    def enemy_chosen_character(self):
+        character = [self.character3, self.character4][random.randint(0,1)]
         if self.can_chose_character(character):
             return character
         else:

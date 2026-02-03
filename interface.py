@@ -13,6 +13,8 @@ from character_types.mage import Mage
 from character_types.archer import Archer
 from character_types.healer import Healer
 from character_types.shielder import Shielder
+from quickBattle import QuickBattle
+
 
 db_manager = AccountManager()
 
@@ -344,7 +346,7 @@ class Interface:
         # 5. Get Input
         choice = cls.get_choise()
         if choice == '2':
-            GameEngine
+            QuickBattle.battleStart(current_account)
         # 6. Handle Logic (Same as before)
         elif choice == "4":
             print("LOGGING OUT...")
