@@ -30,71 +30,78 @@ class GameEngine:
 
     # easy mode
     def reroll_stamina(self):
-        usesr_stamina_count = random.randint(10, 20)
-        enemy_stamina_count = random.randint(6, 20)
+        print("\nREROLL PHASE... ")
+        time.sleep(1)
+        print("\n YOUR TEAM")
 
-        self.character1.add_stamina(usesr_stamina_count)
-        self.character2.add_stamina(usesr_stamina_count)
-        self.character3.add_stamina(enemy_stamina_count)
-        self.character4.add_stamina(enemy_stamina_count)
+        self.character1.add_stamina(random.randint(0, 20))
+        print(f">>> {self.character1.name} THE {type(self.character1).__name__} Have {self.character1.stamina} Stamina.")
+        self.character2.add_stamina(random.randint(0, 20))
+        print(f">>> {self.character2.name} THE {type(self.character2).__name__} Have {self.character2.stamina} Stamina.")
+        print("\n ENEMY TEAM")
+        self.character3.add_stamina(random.randint(6, 20))
+        print(f">>> {self.character3.name} THE {type(self.character3).__name__} Have {self.character3.stamina} Stamina.")
+        self.character4.add_stamina(random.randint(6, 20))
+        print(f">>> {self.character4.name} THE {type(self.character4).__name__} Have {self.character4.stamina} Stamina.")
     
     def user_turn(self):
         # What is the action you are going proform
         # Get user input N,E,Q, or P(for Pass the turn)
-        if self.character1.stamina < 6 and self.character1.stamina < 6:
-            print("DOESN'T HAVE ENOUGH STAMINA !")
+        if self.character1.stamina < 6 and self.character2.stamina < 6:
+            print("\n DOESN'T HAVE ENOUGH STAMINA !")
             time.sleep(2)
-            return Print("YOU HAVE TO PASS YOUR TURN") 
+            return print("YOU HAVE TO PASS YOUR TURN") 
         else:
-            print("CHOSE YOUR HERO TO ATTACK !")
-            print(f"1. {self.character1.name} THE {type(self.character1).__name__}.")
-            print(f"2. {self.character2.name} THE {type(self.character2).__name__}.")
-            character = self.user_chosen_character(int(input("WHICH ONE YOU CHOSE IN THIS ROUND >")))
-            attack_type = self.chosen_attack(character)
+            print("\n CHOSE YOUR HERO TO ATTACK !")
+            print(f"  1. {self.character1.name} THE {type(self.character1).__name__}.")
+            print(f"  2. {self.character2.name} THE {type(self.character2).__name__}.")
+            character = self.user_chosen_character(int(input("\n WHICH ONE YOU CHOSE IN THIS ROUND > ")))
+            attack_type = self.user_chosen_attack(character)
             if attack_type == "P":
                 return print("ENEMY PASS THEIR TURN.")
             
-            print("WHO ARE YOU THINKING TO ATTACK !")
+            print("\n WHO ARE YOU THINKING TO ATTACK !")
             print(f"1. {self.character3.name} THE {type(self.character3).__name__}.")
             print(f"2. {self.character4.name} THE {type(self.character4).__name__}.")
-            enemy_character = self.user_chosen_enemy(int(input("WHICH ONE YOU CHOSE IN THIS ROUND >")))
+            enemy_character = self.user_chosen_enemy(int(input("\n  WHICH ONE YOU CHOSE IN THIS ROUND > ")))
             # N, E, Q
             match attack_type:
                 case "N":
                     self.normal_attack(character, enemy_character)
-                    print(f"YOUR {type(character).__name__} USE NORMAL ATTACK !")
+                    print(f"\n YOUR {type(character).__name__} USE NORMAL ATTACK !")
                 case "E":
                     self.double_attack(character, enemy_character)
-                    print(f"YOUR {type(character).__name__} USE DOUBLE ATTACK !")
+                    print(f"\n YOUR {type(character).__name__} USE DOUBLE ATTACK !")
                 case "Q":
                     self.heavy_attack(character, enemy_character)
-                    print(f"YOUR {type(character).__name__} USE HEAVY ATTACK !")
-            return print("NOW ITS ENEMY TURN.")
+                    print(f"\n YOUR {type(character).__name__} USE HEAVY ATTACK !")
+            return print("\n NOW ITS ENEMY TURN.")
 
     def enemy_turn(self):
         if self.character3.stamina < 6 and self.character4.stamina < 6:
-            print("DOESN'T HAVE ENOUGH STAMINA !")
+            print("\n DOESN'T HAVE ENOUGH STAMINA !")
             time.sleep(2)
-            return Print("ENEMY PASS THEIR TURN.")
+            return print("\n ENEMY PASS THEIR TURN.")
         else:    
             character = self.enemy_chosen_character()
-            attack_type = self.chosen_attack(character)
+            attack_type = self.enemy_chosen_attack(character)
             if attack_type == "P":
-                return print("ENEMY PASS THEIR TURN.")
+                print("\n ENEMY PASS THEIR TURN.")
+                return print("\n NOW ITS YOUR TURN.")
             
             user_character = self.enemy_chosen_user()
             # N, E, Q
             match attack_type:
                 case "N":
                     self.normal_attack(character, user_character)
-                    print("ENEMY USE NORMAL ATTACK !")
+                    print("\n ENEMY USE NORMAL ATTACK !")
                 case "E":
                     self.double_attack(character, user_character)
-                    print("ENEMY USE DOUBLE ATTACK !")
+                    print("\n ENEMY USE DOUBLE ATTACK !")
                 case "Q":
                     self.heavy_attack(character, user_character)
-                    print("ENEMY USE HEAVY ATTACK !")
-            return print("NOW ITS YOUR TURN.")
+                    print("\n ENEMY USE HEAVY ATTACK !")
+            return print("\n NOW ITS YOUR TURN.")
 
             
                                 
@@ -112,8 +119,8 @@ class GameEngine:
         if self.can_chose_character(character):
             return character
         else:
-            print("YOU CAN NOT CHOSE THIS CHARACTER.")
-            print("USE OTHER ONE.")
+            print(" YOU CAN NOT CHOSE THIS CHARACTER.")
+            print(" USE OTHER ONE.")
             return self.user_chosen_character(choise)
 
     def user_chosen_enemy(self, choise):
@@ -121,9 +128,9 @@ class GameEngine:
         if self.is_alive(character):
             return character
         else:
-            print("YOU CAN NOT ATTACK THIS CHARACTER.")
-            print("USE OTHER ONE.")
-            return self.user_chosen_enemy(int(input("WHICH ONE YOU CHOSE IN THIS ROUND >")))  
+            print(" YOU CAN NOT ATTACK THIS CHARACTER.")
+            print(" USE OTHER ONE.")
+            return self.user_chosen_enemy(int(input(" WHICH ONE YOU CHOSE IN THIS ROUND >")))  
     
     def enemy_chosen_user(self):
         character = [self.character1, self.character2][random.randint(0,1)]
@@ -148,19 +155,37 @@ class GameEngine:
         else: 
             return False
 
-    def chosen_attack(self, character):
+    def user_chosen_attack(self, character):
+        self.attack_type_info()
+        match input("\n SELECT YOUR OPTION > "):
+            case "N": return "N"
+            case "E": 
+                if character.stamina >= 12: 
+                    return "E" 
+                else:
+                    print("INSUFFICIENT STAMINA...") 
+                    return self.user_chosen_attack(character)
+            case "Q": 
+                if character.stamina >= 18: 
+                    return "Q" 
+                else:
+                    print("INSUFFICIENT STAMINA...") 
+                    return self.user_chosen_attack(character)
+            case "P": return "P"
+
+    def enemy_chosen_attack(self, character):
         match random.randint(0,3):
             case 0: return "N"
             case 1: 
-                if character.stamina > 12: 
+                if character.stamina >= 12: 
                     return "E" 
                 else: 
-                    return self.chosen_attack(character)
+                    return self.enemy_chosen_attack(character)
             case 2: 
-                if character.stamina > 18: 
+                if character.stamina >= 18: 
                     return "Q" 
                 else: 
-                    return self.chosen_attack(character)
+                    return self.enemy_chosen_attack(character)
             case 3: return "P"
 
     def is_game_over_1(self):
@@ -174,14 +199,6 @@ class GameEngine:
             return False
         else:
             return True
-
-    #def start_game():
-
-        # Battle start
-        # After reroll both sides get stamina
-        # User get to have a first try
-
-    #def process():
 
     def end_game(self, winner):
         if winner == "user":
@@ -218,3 +235,8 @@ class GameEngine:
         character_y.hp -= character_x.attack*2
         if character_y.hp <= 0 :
             return #character_y dies
+        
+    def attack_type_info(self):
+        print("\n N >>> | NORMAL ATTACK |  ATK*1  | STAMINA COST = 6  |")
+        print(" E >>> | DOUBLE ATTACK | ATK*1.5 | STAMINA COST = 12 |")
+        print(" Q >>> | HEAVY ATTACK  |  ATK*2  | STAMINA COST = 18 |")
