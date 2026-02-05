@@ -1,5 +1,6 @@
 import time
 import random
+from color import Color as Col
 
 from character import Character 
 
@@ -32,18 +33,21 @@ class GameEngine:
     def reroll_stamina(self):
         print("\nREROLL PHASE... ")
         time.sleep(1)
-        print("\n YOUR TEAM")
-
         self.character1.add_stamina(random.randint(0, 20))
-        print(f">>> {self.character1.name} THE {type(self.character1).__name__} Have {self.character1.stamina} Stamina.")
         self.character2.add_stamina(random.randint(0, 20))
-        print(f">>> {self.character2.name} THE {type(self.character2).__name__} Have {self.character2.stamina} Stamina.")
-        print("\n ENEMY TEAM")
         self.character3.add_stamina(random.randint(6, 20))
-        print(f">>> {self.character3.name} THE {type(self.character3).__name__} Have {self.character3.stamina} Stamina.")
         self.character4.add_stamina(random.randint(6, 20))
-        print(f">>> {self.character4.name} THE {type(self.character4).__name__} Have {self.character4.stamina} Stamina.")
     
+    def current_info(self):
+        print("\n YOUR TEAM")
+        print(f">>> {Col.BOLD}{self.character1.name}{Col.END} THE {Col.DARKCYAN}{type(self.character1).__name__}{Col.END} HAVE {Col.YELLOW}{self.character1.stamina}{Col.END} STAMINA AND {Col.GREEN}{self.character1.hp}{Col.END} HP.")
+        print(f">>> {Col.BOLD}{self.character2.name}{Col.END} THE {Col.DARKCYAN}{type(self.character2).__name__}{Col.END} HAVE {Col.YELLOW}{self.character2.stamina}{Col.END} STAMINA AND {Col.GREEN}{self.character2.hp}{Col.END} HP.")
+
+        print("\n ENEMY TEAM")
+        print(f">>> {Col.BOLD}{self.character3.name}{Col.END} THE {Col.DARKCYAN}{type(self.character3).__name__}{Col.END} HAVE {Col.YELLOW}{self.character3.stamina}{Col.END} STAMINA AND {Col.GREEN}{self.character3.hp}{Col.END} HP.")
+        print(f">>> {Col.BOLD}{self.character4.name}{Col.END} THE {Col.DARKCYAN}{type(self.character4).__name__}{Col.END} HAVE {Col.YELLOW}{self.character4.stamina}{Col.END} STAMINA AND {Col.GREEN}{self.character4.hp}{Col.END} HP.")
+
+
     def user_turn(self):
         # What is the action you are going proform
         # Get user input N,E,Q, or P(for Pass the turn)

@@ -1,7 +1,11 @@
 import random
+import os
+import time
+
+from color import Color as Col
 from gameEngine import GameEngine
 from enemyAccount import EnemyAccount
-from account import Account
+
 
 class QuickBattle:
     game_engine = None
@@ -17,16 +21,21 @@ class QuickBattle:
                 enemy_account.sub_character
                 )
         #mode = user_account.difficulty
+        cls.battle_info()
         while(True):
             cls.game_engine.reroll_stamina()
+            cls.character_dashboard()
             cls.game_engine.user_turn()
             if cls.game_engine.is_game_over_2(): 
                 cls.game_engine.end_game("user")
                 break
+            time.sleep(2)
+            cls.character_dashboard()
             cls.game_engine.enemy_turn()
             if cls.game_engine.is_game_over_1(): 
                 cls.game_engine.end_game("enemy")
                 break
+            time.sleep(2)
 
         cls.game_engine = None
 
@@ -53,4 +62,20 @@ class QuickBattle:
         enemyAccount.create_sub_character(random.choice(name_list))    
 
         return enemyAccount
+        
+    @classmethod
+    def battle_info(cls):
+        os.system('cls' if os.name == 'nt' else 'clear')
+        print(f"{Col.CYAN}╔{'═'*50}╗{Col.END}")
+        print(f"{Col.CYAN}║{Col.END}{' '*50}{Col.CYAN}║{Col.END}")
+        print(f"{Col.CYAN}║{Col.END} {Col.BOLD}{f'QUICK BATTEL BEGINS'.center(48)}{Col.END} {Col.CYAN}║{Col.END}")
+        print(f"{Col.CYAN}║{Col.END}{' '*50}{Col.CYAN}║{Col.END}")
+        print(f"{Col.CYAN}╚{'═'*50}╝{Col.END}")
+        time.sleep(2)
+
+    @classmethod
+    def character_dashboard(cls):
+        cls.battle_info()
+        cls.game_engine.current_info()
+        
         
