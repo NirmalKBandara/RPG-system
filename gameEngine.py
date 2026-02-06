@@ -216,6 +216,7 @@ class GameEngine:
         if character_x.stamina < 6:
             print("LOW STAMINA ! CAN NOT PROFORM THIS ACTION.")
             return None
+        character_x.reduce_stamina("N")
         character_y.hp -= character_x.attack        
         if character_y.hp <= 0 :
             return #character_y dies
@@ -225,7 +226,7 @@ class GameEngine:
         if character_x.stamina < 12:
             print("LOW STAMINA ! CAN NOT PROFORM THIS ACTION.")
             return None
-        
+        character_x.reduce_stamina("E")
         character_y.hp -= character_x.attack*1.5 
         if character_y.hp <= 0 :
             return #character_y dies
@@ -236,6 +237,7 @@ class GameEngine:
             print("LOW STAMINA ! CAN NOT PROFORM THIS ACTION.")
             return None
 
+        character_x.reduce_stamina("Q")
         character_y.hp -= character_x.attack*2
         if character_y.hp <= 0 :
             return #character_y dies

@@ -20,3 +20,11 @@ class Character:
     def add_stamina(self, amount):
         self.stamina += amount
     
+    def reduce_stamina(self, attack_type):
+        match attack_type:
+            case "N":
+                self.stamina -= 6
+            case "E":
+                self.stamina -= 12
+            case "Q":
+                self.stamina -= 18
