@@ -1,7 +1,9 @@
 import sqlite3
 import json
 import mysql.connector
+import os
 
+from dotenv import load_dotenv
 from character_types.warrior import Warrior
 from character_types.mage import Mage
 from character_types.archer import Archer
@@ -13,7 +15,7 @@ from account import Account
 class AccountManager:
     _instance = None 
 
-    def __new__(cls, *agr, **kwrags):
+    def __new__(cls, *args, **kwargs):
         if not cls._instance:
             cls._instance = super(AccountManager, cls).__new__(cls)
         return cls._instance
@@ -21,12 +23,12 @@ class AccountManager:
     def __init__(self, db_name = "accounts.db"):
         if hasattr(self, 'initialized'):
             return None
-
+        load_dotenv()
         self.conn = mysql.connector.connect(
-           host="localhost",
-           user="root",
-           password="(Nirmal2003Bandara:",
-           database="accounts"
+           host=os.getenv("DB_HOST"),
+           user=os.getenv("DB_USER"),
+           password=os.getenv("DB_PASSWORD"),
+           database=os.getenv("DB_NAME")
        )
 
         self.cursor = self.conn.cursor() # The Truck on the road
@@ -54,7 +56,7 @@ class AccountManager:
             self.cursor.execute(query, data)
             self.conn.commit()
             return True
-        except sqlite3.IntegrityError:
+        except mysql.connector.IntegrityError:
             print(f"Error !!! {account.username} is already taken")
             return False
         except Exception as e:

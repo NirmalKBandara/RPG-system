@@ -3,6 +3,8 @@ import random
 from color import Color as Col
 
 from character import Character 
+from character_types.healer import Healer
+from character_types.shielder import Shielder
 
 class GameEngine:
     def __init__(self, character1, character2, character3, character4):
@@ -107,9 +109,6 @@ class GameEngine:
                     print("\n ENEMY USE HEAVY ATTACK !")
             return print("\n NOW ITS YOUR TURN.")
 
-            
-                                
-
         # print(f"ENEMY CHOSE {character.name} THE {type(character).__name__} TO ATTACK YOU.")
         # time.sleep(2)
     def is_alive(self, character):
@@ -125,7 +124,7 @@ class GameEngine:
         else:
             print(" YOU CAN NOT CHOSE THIS CHARACTER.")
             print(" USE OTHER ONE.")
-            return self.user_chosen_character(choise)
+            return self.user_chosen_character(int(input("\n WHICH ONE YOU CHOSE IN THIS ROUND > ")))
 
     def user_chosen_enemy(self, choise):
         character = [self.character3, self.character4][choise-1]
@@ -175,6 +174,22 @@ class GameEngine:
                 else:
                     print("INSUFFICIENT STAMINA...") 
                     return self.user_chosen_attack(character)
+            case "H": 
+                if isinstance(self, Healer):
+                    if character.stamina < 12:
+                        print("INSUFFICIENT STAMINA...") 
+                        return self.user_chosen_attack(character)
+                    return "H"
+                print("ONLY HEALERS CAN USE THIS ABILITY !")
+                return self.user_chosen_attack(character)
+            case "S": 
+                if isinstance(self, Shielder):
+                    if character.stamina < 12:
+                        print("INSUFFICIENT STAMINA...") 
+                        return self.user_chosen_attack(character)
+                    return "S"
+                print("ONLY SHIELDERS CAN USE THIS ABILITY !")
+                return self.user_chosen_attack(character)        
             case "P": return "P"
 
     def enemy_chosen_attack(self, character):
@@ -246,3 +261,12 @@ class GameEngine:
         print("\n N >>> | NORMAL ATTACK |  ATK*1  | STAMINA COST = 6  |")
         print(" E >>> | DOUBLE ATTACK | ATK*1.5 | STAMINA COST = 12 |")
         print(" Q >>> | HEAVY ATTACK  |  ATK*2  | STAMINA COST = 18 |")
+        print(" H >>> | HEALING ABILITY | ATK*1.5 | STAMINA COST = 12 |")
+        print(" S >>> | HEALING ABILITY | ATK*1.5 | STAMINA COST = 12 |")
+    
+    # Press H (Only for healer)
+    def use_heal(self, character_x, character_y):
+        if character_x.stamina < 12:
+            print("LOW STAMINA ! CAN NOT PROFORM THIS ACTION.")
+        
+            

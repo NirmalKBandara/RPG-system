@@ -28,3 +28,5 @@ class Character:
                 self.stamina -= 12
             case "Q":
                 self.stamina -= 18
+            case "H":
+                self.stamina -= 12
