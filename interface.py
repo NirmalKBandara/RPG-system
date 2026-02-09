@@ -83,7 +83,7 @@ class Interface:
         print(f"{Col.CYAN}╚{'═'*50}╝{Col.END}")
         print(f"\n{Col.YELLOW}THIS GAME IS A TEXT-BASED ADVENTURE WHERE YOU CAN CREATE AN ACCOUNT. {Col.END}")
         print(f"{Col.YELLOW}CHOOSE CHARACTERS, AND EMBARK ON EXCITING QUESTS.{Col.END}")
-        print(f"\n{Col.YELLOW}DEVELOPED BY NIRMAL K. BANDARA HERE. ENJOY{Col.END}")
+        print(f"\n{Col.YELLOW}DEVELOPED BY NIRMAL K. BANDARA HERE. ENJOY.{Col.END}")
         print(f"\n{Col.YELLOW}IF YOU WANT TO CONTACT ME AND WORK WITH ME FEEL FREE TO FIND ME ON{Col.END}") 
         print(f"{Col.YELLOW}LINKEDIN: https://www.linkedin.com/in/nirmal-bandara-4b8260341/{Col.END}")
         print(f"{Col.YELLOW}CHECK MY GITHUB FOR MORE PROJECTS: https://github.com/NirmalKBandara{Col.END}")
@@ -126,11 +126,11 @@ class Interface:
         print(f"{Col.CYAN}╠{'═'*50}╣{Col.END}")
         
         print(f"{Col.CYAN}║{Col.END}{' '*50}{Col.CYAN}║{Col.END}")
-        print(f"{Col.CYAN}║{Col.END}     {Col.GREEN}1. EASY{Col.END} {" "*(36)} {Col.CYAN}║{Col.END}")
+        print(f"{Col.CYAN}║{Col.END}     {Col.GREEN}1. EASY{Col.END} {' '*(36)} {Col.CYAN}║{Col.END}")
         
-        print(f"{Col.CYAN}║{Col.END}     {Col.YELLOW}2. MEDIUM{Col.END} {" "*(34)} {Col.CYAN}║{Col.END}")
+        print(f"{Col.CYAN}║{Col.END}     {Col.YELLOW}2. MEDIUM{Col.END} {' '*(34)} {Col.CYAN}║{Col.END}")
         
-        print(f"{Col.CYAN}║{Col.END}     {Col.RED}3. HARD{Col.END} {" "*(36)} {Col.CYAN}║{Col.END}")
+        print(f"{Col.CYAN}║{Col.END}     {Col.RED}3. HARD{Col.END} {' '*(36)} {Col.CYAN}║{Col.END}")
         print(f"{Col.CYAN}║{Col.END}{' '*50}{Col.CYAN}║{Col.END}")
         print(f"{Col.CYAN}╚{'═'*50}╝{Col.END}")
         

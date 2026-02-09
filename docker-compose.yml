@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  # The MySQL Database Service
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "(Nirmal2003Bandara:"  # Matching your .env password
+      MYSQL_DATABASE: accounts                    # Matching your .env DB_NAME
+    ports:
+      - "3307:3306"  # Expose on port 3307 to avoid conflict if you have local MySQL
+    volumes:
+      - db_data:/var/lib/mysql
+
+  # Your RPG App Service
+  app:
+    build: .
+    depends_on:
+      - db
+    environment:
+      # We override the .env values here to talk to the 'db' container
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD: "(Nirmal2003Bandara:"
+      DB_NAME: accounts
+    stdin_open: true # crucial for interactive CLI apps
+    tty: true        # crucial for interactive CLI apps
+
+volumes:
+  db_data:
