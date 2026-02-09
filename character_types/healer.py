@@ -10,4 +10,6 @@ class Healer(Character):
     def __init__(self, name):
         super().__init__(name, hp=self.BASE_HP, attack=self.BASE_ATTACK, stamina=self.BASE_STAMINA)
         self.heal = self.ABILITY_VALUE
-        
+
+    def get_ability(self):
+        return self.ABILITY_VALUE

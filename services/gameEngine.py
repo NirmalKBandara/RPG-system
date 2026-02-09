@@ -175,7 +175,7 @@ class GameEngine:
                     print("INSUFFICIENT STAMINA...") 
                     return self.user_chosen_attack(character)
             case "H": 
-                if isinstance(self, Healer):
+                if isinstance(character, Healer):
                     if character.stamina < 12:
                         print("INSUFFICIENT STAMINA...") 
                         return self.user_chosen_attack(character)
@@ -183,7 +183,7 @@ class GameEngine:
                 print("ONLY HEALERS CAN USE THIS ABILITY !")
                 return self.user_chosen_attack(character)
             case "S": 
-                if isinstance(self, Shielder):
+                if isinstance(character, Shielder):
                     if character.stamina < 12:
                         print("INSUFFICIENT STAMINA...") 
                         return self.user_chosen_attack(character)
@@ -232,9 +232,15 @@ class GameEngine:
             print("LOW STAMINA ! CAN NOT PROFORM THIS ACTION.")
             return None
         character_x.reduce_stamina("N")
-        character_y.hp -= character_x.attack        
+        if character_y.shield > 0:
+            if character_x.attack > character_y.shield:
+                character_y.hp -= (character_x.attack - character_y.shield)
+                character_y.shield = 0
+            else:
+                character_y.shield -= character_x.attack
         if character_y.hp <= 0 :
-            return #character_y dies
+            print(f"{character_y.name} THE {type(character_y).__name__} DIED !")
+            return None
 
     # Press E
     def double_attack(self, character_x, character_y):
@@ -242,9 +248,15 @@ class GameEngine:
             print("LOW STAMINA ! CAN NOT PROFORM THIS ACTION.")
             return None
         character_x.reduce_stamina("E")
-        character_y.hp -= character_x.attack*1.5 
+        if character_y.shield > 0:
+            if character_x.attack*1.5 > character_y.shield:
+                character_y.hp -= (character_x.attack*1.5 - character_y.shield)
+                character_y.shield = 0
+            else:
+                character_y.shield -= character_x.attack*1.5
         if character_y.hp <= 0 :
-            return #character_y dies
+            print(f"{character_y.name} THE {type(character_y).__name__} DIED !")
+            return None
 
     # Press Q
     def heavy_attack(self, character_x, character_y):
@@ -253,9 +265,15 @@ class GameEngine:
             return None
 
         character_x.reduce_stamina("Q")
-        character_y.hp -= character_x.attack*2
+        if character_y.shield > 0:
+            if character_x.attack*2 > character_y.shield:
+                character_y.hp -= (character_x.attack*2 - character_y.shield)
+                character_y.shield = 0
+            else:
+                character_y.shield -= character_x.attack*2
         if character_y.hp <= 0 :
-            return #character_y dies
+            print(f"{character_y.name} THE {type(character_y).__name__} DIED !")
+            return None
         
     def attack_type_info(self):
         print("\n N >>> | NORMAL ATTACK |  ATK*1  | STAMINA COST = 6  |")
@@ -268,5 +286,17 @@ class GameEngine:
     def use_heal(self, character_x, character_y):
         if character_x.stamina < 12:
             print("LOW STAMINA ! CAN NOT PROFORM THIS ACTION.")
-        
-            
+            return None
+        character_x.reduce_stamina("H")
+        character_y.hp += character_x.get_ability()
+        if character_y.hp > character_y.max_hp:
+            character_y.hp = character_y.max_hp
+
+    # Press S (Only for shielder)
+    def use_shield(self, character_x, character_y):
+        if character_x.stamina < 12:
+            print("LOW STAMINA ! CAN NOT PROFORM THIS ACTION.")
+            return None
+        character_x.reduce_stamina("S")
+        character_y.shield(character_x.get_ability()) 
+
