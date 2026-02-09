@@ -46,8 +46,8 @@ class Interface:
         elif choise == "2":
             cls.new_account_menu()
             cls.game_menu()
-        # elif choise == "3":
-        #     cls.about_game()
+        elif choise == "3":
+            cls.about_game()
         # elif choise == "4":
         #     cls.settings()
         elif choise == "5":
@@ -74,6 +74,24 @@ class Interface:
         return input(f"{Col.YELLOW}SET A PASSWORD > {Col.END}") 
 
     @classmethod
+    def about_game(cls):
+        os.system('cls' if os.name == 'nt' else 'clear')
+        print(f"\n{Col.CYAN}╔{'═'*50}╗{Col.END}")
+        print(f"{Col.CYAN}║{Col.END}{' '*50}{Col.CYAN}║{Col.END}")
+        print(f"{Col.CYAN}║{Col.END} {Col.BOLD}{f'ABOUT THE GAME'.center(48)}{Col.END} {Col.CYAN}║{Col.END}")
+        print(f"{Col.CYAN}║{Col.END}{' '*50}{Col.CYAN}║{Col.END}")
+        print(f"{Col.CYAN}╚{'═'*50}╝{Col.END}")
+        print(f"\n{Col.YELLOW}THIS GAME IS A TEXT-BASED ADVENTURE WHERE YOU CAN CREATE AN ACCOUNT. {Col.END}")
+        print(f"{Col.YELLOW}CHOOSE CHARACTERS, AND EMBARK ON EXCITING QUESTS.{Col.END}")
+        print(f"\n{Col.YELLOW}DEVELOPED BY NIRMAL K. BANDARA HERE. ENJOY{Col.END}")
+        print(f"\n{Col.YELLOW}IF YOU WANT TO CONTACT ME AND WORK WITH ME FEEL FREE TO FIND ME ON{Col.END}") 
+        print(f"{Col.YELLOW}LINKEDIN: https://www.linkedin.com/in/nirmal-bandara-4b8260341/{Col.END}")
+        print(f"{Col.YELLOW}CHECK MY GITHUB FOR MORE PROJECTS: https://github.com/NirmalKBandara{Col.END}")
+        print(f"\n{Col.YELLOW}PRESS ENTER TO GO BACK TO MAIN MENU...{Col.END}")
+        input()
+        cls.start_menu()
+
+    @classmethod
     def new_account_menu(cls):
         os.system('cls' if os.name == 'nt' else 'clear')
         print(f"{Col.CYAN}╔{'═'*50}╗{Col.END}")
@@ -81,7 +99,13 @@ class Interface:
         print(f"{Col.CYAN}║{Col.END} {Col.BOLD}{f'CREATE NEW ACCOUNT'.center(48)}{Col.END} {Col.CYAN}║{Col.END}")
         print(f"{Col.CYAN}║{Col.END}{' '*50}{Col.CYAN}║{Col.END}")
         print(f"{Col.CYAN}╚{'═'*50}╝{Col.END}")
+        print()
+        print(f"{Col.YELLOW}IF YOU WANT TO GO BACK TYPE 'Q' AND PRESS ENTER{Col.END}")
+
         username = cls.get_username()
+        if username.lower() == 'q':
+            cls.start_menu()
+            return None
         difficulty = cls.set_difficulty()
         cls.current_account = Account.new_account(username, cls.get_password(), difficulty)
         InterfaceLine.double_line()
