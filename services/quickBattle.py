@@ -2,9 +2,9 @@ import random
 import os
 import time
 
-from color import Color as Col
-from gameEngine import GameEngine
-from enemyAccount import EnemyAccount
+from ui.color import Color as Col
+from services.gameEngine import GameEngine
+from models.enemyAccount import EnemyAccount
 
 
 class QuickBattle:

@@ -1,8 +1,8 @@
 import time
 import random
-from color import Color as Col
+from ui.color import Color as Col
 
-from character import Character 
+from models.character import Character 
 from character_types.healer import Healer
 from character_types.shielder import Shielder
 

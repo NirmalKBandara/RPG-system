@@ -9,7 +9,7 @@ from character_types.mage import Mage
 from character_types.archer import Archer
 from character_types.healer import Healer
 from character_types.shielder import Shielder
-from account import Account
+from models.account import Account
 
 
 class AccountManager:

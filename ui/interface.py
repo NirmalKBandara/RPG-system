@@ -1,19 +1,19 @@
 import sys
 import os
 import time
-from color import Color as Col
+from ui.color import Color as Col
 
-from gameEngine import GameEngine
-from account import Account 
-from interfaceLine import InterfaceLine
-from accountManager import AccountManager
-#from character import Character
+from services.gameEngine import GameEngine
+from models.account import Account 
+from ui.interfaceLine import InterfaceLine
+from repositories.accountManager import AccountManager
+#from models.character import Character
 from character_types.warrior import Warrior
 from character_types.mage import Mage
 from character_types.archer import Archer
 from character_types.healer import Healer
 from character_types.shielder import Shielder
-from quickBattle import QuickBattle
+from services.quickBattle import QuickBattle
 
 
 db_manager = AccountManager()

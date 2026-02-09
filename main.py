@@ -1,5 +1,5 @@
-from interface import Interface
-from accountManager import AccountManager
+from ui.interface import Interface
+from repositories.accountManager import AccountManager
 
 database = AccountManager()
 Interface.start_menu()

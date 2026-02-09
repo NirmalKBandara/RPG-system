@@ -1,4 +1,4 @@
-from character import Character
+from models.character import Character
 
 class Shielder(Character):
     BASE_HP = 85
