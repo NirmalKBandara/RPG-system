@@ -1,4 +1,5 @@
 from enum import Enum
+
 from character_types.archer import Archer
 from character_types.healer import Healer
 from character_types.mage import Mage

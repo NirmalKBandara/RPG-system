@@ -47,6 +47,14 @@ class AccountManager:
         self.conn.commit() # Creating the load space
 
     def save_account(self, account):
+        if not account or not isinstance(account, Account):
+            print(" [ERROR] Invalid account object.")
+            return False
+        
+        if not account.username:
+            print(" [ERROR] Account must have a username.")
+            return False
+
         try:
             main_char_json = json.dumps(account.main_character.to_dict()) if account.main_character else None
             sub_char_json = json.dumps(account.sub_character.to_dict()) if account.sub_character else None
@@ -64,6 +72,10 @@ class AccountManager:
             return False
 
     def load_account(self, username):
+        if not username or not isinstance(username, str):
+            print(" [ERROR] Invalid username.")
+            return None
+
         try:
             query = "SELECT username, salt, password_hash, difficulty, main_character, sub_character FROM accounts WHERE username = %s"
             self.cursor.execute(query, (username, ))
@@ -90,28 +102,57 @@ class AccountManager:
         if not json_str: 
             return None
 
-        data = json.loads(json_str)
-        char_type = data["type"]
-        char_name = data["name"]
+        try:
+            data = json.loads(json_str)
+            char_type = data.get("type")
+            char_name = data.get("name")
+            
+            if not char_type or not char_name:
+                print(" [ERROR] Invalid character data: missing type or name.")
+                return None
 
-        character_type = None
-        if char_type == "Warrior": 
-            character_type = Warrior(char_name)
-        elif char_type == "Mage": 
-            character_type = Mage(char_name)
-        elif char_type == "Archer": 
-            character_type = Archer(char_name)
-        elif char_type == "Healer": 
-            character_type = Healer(char_name)
-        elif char_type == "Shielder": 
-            character_type = Shielder(char_name)
+            character_type = None
+            if char_type == "Warrior": 
+                character_type = Warrior(char_name)
+            elif char_type == "Mage": 
+                character_type = Mage(char_name)
+            elif char_type == "Archer": 
+                character_type = Archer(char_name)
+            elif char_type == "Healer": 
+                character_type = Healer(char_name)
+            elif char_type == "Shielder": 
+                character_type = Shielder(char_name)
+            else:
+                 print(f" [WARNING] Unknown character type: {char_type}")
 
-        # if character_type:
-        #     character_type.hp = data["hp"]
-        #     character_type.attack = data["attack"]
-        #     character_type.stamina = data["stamina"]
+            # if character_type:
+            #     character_type.hp = data.get("hp", 100)
+            #     character_type.attack = data.get("attack", 10)
+            #     character_type.stamina = data.get("stamina", 100)
 
-        return character_type
+            return character_type
+            
+        except json.JSONDecodeError:
+            print(f" [ERROR] Failed to decode character JSON: {json_str}")
+            return None
+        except Exception as e:
+            print(f" [ERROR] Error loading character: {e}")
+            return None
             
     def close(self):
-        self.conn.close()
+        try:
+            if hasattr(self, 'cursor') and self.cursor:
+                self.cursor.close()
+                print(" [SYSTEM] DATABASE CURSOR CLOSED.")
+        except Exception as e:
+            print(f" [ERROR] FAILED TO CLOSE CURSOR: {e}")
+
+        try:
+            if hasattr(self, 'conn') and self.conn:
+                self.conn.close()
+                print(" [SYSTEM] DATABASE CONNECTION CLOSED.")
+        except Exception as e:
+            print(f" [ERROR] FAILED TO CLOSE CONNECTION: {e}")
+        
+        if hasattr(self, 'initialized'):
+            del self.initialized
