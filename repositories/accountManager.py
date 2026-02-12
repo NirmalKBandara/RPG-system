@@ -48,12 +48,10 @@ class AccountManager:
 
     def save_account(self, account):
         if not account or not isinstance(account, Account):
-            print(" [ERROR] Invalid account object.")
-            return False
+            raise ValueError("[ERROR] Invalid account object.")
         
         if not account.username:
-            print(" [ERROR] Account must have a username.")
-            return False
+            raise ValueError("[ERROR] Account must have a username.")
 
         try:
             main_char_json = json.dumps(account.main_character.to_dict()) if account.main_character else None
@@ -65,16 +63,13 @@ class AccountManager:
             self.conn.commit()
             return True
         except mysql.connector.IntegrityError:
-            print(f"Error !!! {account.username} is already taken")
-            return False
+            raise ValueError(f"Error: Username '{account.username}' is already taken.")
         except Exception as e:
-            print(f"Database Error: {e}")
-            return False
+            raise RuntimeError(f"Database Error: {e}")
 
     def load_account(self, username):
         if not username or not isinstance(username, str):
-            print(" [ERROR] Invalid username.")
-            return None
+            raise ValueError("[ERROR] Invalid username.")
 
         try:
             query = "SELECT username, salt, password_hash, difficulty, main_character, sub_character FROM accounts WHERE username = %s"
@@ -82,8 +77,7 @@ class AccountManager:
             row = self.cursor.fetchone()
 
             if not row:
-                print("No account found! Try again.")
-                return None
+                raise ValueError(f"No account found with username '{username}'.")
 
             username, salt, password_hash, difficulty, main_character, sub_character = row
             loaded_account = Account.load_from_db(username, salt, password_hash, difficulty)
@@ -93,9 +87,10 @@ class AccountManager:
 
             return loaded_account
         
+        except ValueError:
+            raise 
         except Exception as e:
-            print(f"Error loading account: {e}")
-            return None
+            raise RuntimeError(f"Error loading account: {e}")
 
 
     def load_character(self, json_str):

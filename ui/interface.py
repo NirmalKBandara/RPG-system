@@ -51,11 +51,12 @@ class Interface:
         # elif choise == "4":
         #     cls.settings()
         elif choise == "5":
-            print(5)
+            print("GOODBYE!")
             sys.exit()
-        # else:
-        #     print("Invalid Option ! Try again...")
-        #     cls.game_menu()
+        else:
+            print(f"\n{Col.RED}INVALID OPTION ! TRY AGAIN...{Col.END}")
+            time.sleep(1)
+            cls.start_menu()
 
 
     @classmethod
@@ -110,10 +111,19 @@ class Interface:
         cls.current_account = Account.new_account(username, cls.get_password(), difficulty)
         InterfaceLine.double_line()
         cls.set_characters_menu()
-        if db_manager.save_account(cls.current_account):
-            print("ACCOUNT SAVED TO DATABASE SUCCESSFULLY!")
-        else:
-            print("FAILED TO SAVE ACCOUNT.")
+        try:
+            if db_manager.save_account(cls.current_account):
+                print(f"\n{Col.GREEN}ACCOUNT SAVED TO DATABASE SUCCESSFULLY!{Col.END}")
+                time.sleep(1)
+        except ValueError as e:
+            print(f"\n{Col.RED}{e}{Col.END}")
+            time.sleep(2)
+        except RuntimeError as e:
+            print(f"\n{Col.RED}SYSTEM ERROR: {e}{Col.END}")
+            time.sleep(2)
+        except Exception as e:
+            print(f"\n{Col.RED}AN UNEXPECTED ERROR OCCURRED: {e}{Col.END}")
+            time.sleep(2)
         
         
     @classmethod
@@ -281,10 +291,15 @@ class Interface:
     @classmethod
     def login_username(cls):
         print()
-        cls.current_account = db_manager.load_account(input(f"{Col.YELLOW}ENTER THE USERNAME > {Col.END}"))
-        if cls.current_account:
+        username = input(f"{Col.YELLOW}ENTER THE USERNAME > {Col.END}")
+        try:
+            cls.current_account = db_manager.load_account(username)
             return True
-        else:
+        except ValueError as e:
+            print(f"\n{Col.RED}{e}{Col.END}")
+            return False
+        except RuntimeError as e:
+            print(f"\n{Col.RED}SYSTEM ERROR: {e}{Col.END}")
             return False 
 
     @classmethod
@@ -293,6 +308,7 @@ class Interface:
         if cls.current_account.check_password(input(f"{Col.YELLOW}ENTER THE PASSWORD > {Col.END}")):
             return True
         else:
+            print(f"\n{Col.RED}INCORRECT PASSWORD!{Col.END}")
             return False
 
     @classmethod
